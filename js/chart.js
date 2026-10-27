@@ -100,7 +100,7 @@
         width: pw,
         height: ph,
         fill: "url(#plotFade)",
-        stroke: "#C8CDD8",
+        stroke: "var(--line)",
         "stroke-width": "1",
         rx: "4",
       })
@@ -124,7 +124,7 @@
       el("g", {
         id: "paths",
         fill: "none",
-        stroke: "#C45C26",
+        stroke: "var(--accent)",
         "stroke-width": "2.5",
         "stroke-linecap": "round",
         "stroke-linejoin": "round",
@@ -143,7 +143,7 @@
           "text-anchor": "middle",
           "font-size": "11",
           "font-weight": "700",
-          fill: "#1E2A50",
+          fill: "var(--ink)",
         },
         ["DB (°C) →"]
       )
@@ -156,7 +156,7 @@
         "text-anchor": "middle",
         "font-size": "11",
         "font-weight": "700",
-        fill: "#1E2A50",
+        fill: "var(--ink)",
         transform: "rotate(-90 14 " + (py + ph / 2) + ")",
       },
       ["ω (g/kg) ↑"]
@@ -166,7 +166,7 @@
     var ticks = el("g", {
       id: "ticks",
       "font-size": "11",
-      fill: "#5A6178",
+      fill: "var(--muted)",
       "font-variant-numeric": "tabular-nums",
     });
     [10, 15, 20, 25, 30, 35].forEach(function (db) {
@@ -193,7 +193,7 @@
           y: py + 14,
           "font-size": "11",
           "font-weight": "600",
-          fill: "#C45C26",
+          fill: "var(--accent)",
           visibility: "hidden",
         },
         ["Off chart / 超出圖範圍"]
@@ -230,8 +230,8 @@
     g.appendChild(
       el("path", {
         d: d,
-        fill: "rgba(46,125,110,0.14)",
-        stroke: "#2E7D6E",
+        fill: "var(--comfort)",
+        stroke: "var(--comfort-edge)",
         "stroke-width": "1.25",
         "stroke-dasharray": "4 3",
       })
@@ -246,7 +246,7 @@
           y: cy + 4,
           "text-anchor": "middle",
           "font-size": "11",
-          fill: "#2E7D6E",
+          fill: "var(--comfort-edge)",
           "font-weight": "600",
         },
         ["Comfort"]
@@ -273,7 +273,7 @@
       opacity: "0",
     });
     g.appendChild(
-      el("circle", { r: "7", fill: fill, stroke: "#fff", "stroke-width": "2" })
+      el("circle", { r: "7", fill: fill, stroke: "var(--panel)", "stroke-width": "2" })
     );
     // Hit target ≥44 CSS px approximated via larger invisible circle in SVG space
     g.appendChild(
@@ -290,7 +290,7 @@
         y: String(ly),
         "font-size": "10",
         "font-weight": "700",
-        fill: "#1E2A50",
+        fill: "var(--ink)",
       },
       [label]
     );
@@ -350,7 +350,7 @@
       roomG.appendChild(
         line("seg-shr", supplyDraw, room, {
           "stroke-dasharray": "5 4",
-          stroke: "#C45C26",
+          stroke: "var(--accent)",
           "stroke-width": "2.5",
           "stroke-linecap": "round",
           class: "seg",
@@ -361,18 +361,18 @@
 
     var pts = svg.querySelector("#points");
     clear(pts);
-    pts.appendChild(makePoint("pt-oa", "OA", oa, "#1E2A50", true));
-    pts.appendChild(makePoint("pt-ra", "RA", ra, "#1E2A50", true));
-    pts.appendChild(makePoint("pt-mix", "Mix", mx, "#C45C26", true));
+    pts.appendChild(makePoint("pt-oa", "OA", oa, "var(--ink)", true));
+    pts.appendChild(makePoint("pt-ra", "RA", ra, "var(--ink)", true));
+    pts.appendChild(makePoint("pt-mix", "Mix", mx, "var(--accent)", true));
     // Leaving (coil @ ~95% RH) then ADP sat kiss at same DB — labels offset so both readable
     pts.appendChild(
-      makePoint("pt-leave", "Leaving", leaving, "#C45C26", true, { x: 10, y: 14 })
+      makePoint("pt-leave", "Leaving", leaving, "var(--accent)", true, { x: 10, y: 14 })
     );
     pts.appendChild(
-      makePoint("pt-adp", "ADP", adp, "#1E2A50", true, { x: 10, y: -10 })
+      makePoint("pt-adp", "ADP", adp, "var(--ink)", true, { x: 10, y: -10 })
     );
-    pts.appendChild(makePoint("pt-sup", "Supply", supplyDraw, "#C45C26", true));
-    var roomPt = makePoint("pt-room", "Room", room, "#2E7D6E", showShr);
+    pts.appendChild(makePoint("pt-sup", "Supply", supplyDraw, "var(--accent)", true));
+    var roomPt = makePoint("pt-room", "Room", room, "var(--comfort-edge)", showShr);
     pts.appendChild(roomPt);
 
     var anyOff =

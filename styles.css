@@ -8,10 +8,15 @@
   --comfort: rgba(46, 125, 110, 0.14);
   --comfort-edge: #2E7D6E;
   --focus: #174A7C;
+  --selected: #E8ECF5;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 * { box-sizing: border-box; }
+
+/* Author display rules beat the UA [hidden] style. One rule so the next
+   field/badge cannot paint while hidden (light v2 P0). */
+[hidden] { display: none !important; }
 
 html, body {
   margin: 0;
@@ -60,16 +65,6 @@ header.appbar .sub {
   font-size: 12px;
   color: var(--muted);
   font-weight: 500;
-}
-.badge {
-  font-size: 11px;
-  font-weight: 700;
-  color: #8a4b12;
-  background: #fde8d4;
-  border: 1px solid #e8b078;
-  border-radius: 999px;
-  padding: 4px 8px;
-  white-space: nowrap;
 }
 
 .chart-pane {
@@ -186,7 +181,7 @@ header.appbar .sub {
   padding: 0 6px;
 }
 .steps button[aria-current="true"] {
-  background: #E8ECF5;
+  background: var(--selected);
   border-color: var(--ink);
 }
 .step-caption {
@@ -227,7 +222,6 @@ header.appbar .sub {
   line-height: 1.35;
   color: var(--muted);
 }
-.shr-caption[hidden] { display: none !important; }
 .grab {
   width: 36px;
   height: 4px;
@@ -246,7 +240,6 @@ header.appbar .sub {
   gap: 4px;
   min-width: 0;
 }
-.field[hidden] { display: none !important; }
 .field.span2 { grid-column: 1 / -1; }
 .field label .en {
   display: block;
@@ -261,8 +254,9 @@ header.appbar .sub {
   line-height: 1.2;
 }
 @media (max-width: 340px) {
-  .field label .zh { display: none; }
-  .toggle .text .zh { display: none; }
+  .field label .zh,
+  .toggle .text .zh,
+  .seg-btn .zh { display: none; }
 }
 
 .control {
@@ -390,7 +384,6 @@ header.appbar .sub {
   font-weight: 600;
   line-height: 1.3;
 }
-.soft-warn[hidden], .shr-hint[hidden] { display: none !important; }
 .shr-hint {
   margin: 4px 0 0;
   font-size: 11px;
@@ -470,16 +463,13 @@ header.appbar .sub {
   line-height: 1.15;
 }
 .seg-btn[aria-checked="true"] {
-  background: #E8ECF5;
+  background: var(--selected);
   border-color: var(--ink);
   color: var(--ink);
 }
 .seg-btn:focus-visible {
   outline: 3px solid var(--focus);
   outline-offset: 2px;
-}
-@media (max-width: 340px) {
-  .seg-btn .zh { display: none; }
 }
 .field-warn {
   margin: 2px 0 0;
@@ -488,7 +478,6 @@ header.appbar .sub {
   color: #8a5a12;
   font-weight: 600;
 }
-.field-warn[hidden] { display: none !important; }
 .bec-badge {
   margin: 2px 0 0;
   padding: 6px 10px;
@@ -500,7 +489,6 @@ header.appbar .sub {
   border-radius: 999px;
   font-weight: 500;
 }
-.bec-badge[hidden] { display: none !important; }
 
 /* SVG step visibility */
 .seg, .pt { opacity: 0; transition: opacity 0.28s ease-out; }
