@@ -1,6 +1,7 @@
 /**
- * Psychrometry (Beatrice ANSWERS) — pure, no DOM.
+ * Psychrometry (Beatrice ANSWERS + light v2 WB) — pure, no DOM.
  * Magnus/Tetens + humidity ratio at P = 101325 Pa.
+ * Wet-bulb: ASHRAE SI ω from Twb (Fundamentals).
  */
 (function (global) {
   "use strict";
@@ -24,6 +25,67 @@
     return EPS * (pv / (P - pv));
   }
 
+  /** Saturation humidity ratio kg/kg at t °C. */
+  function omegaSat(tC) {
+    return omegaFromDbRh(tC, 100);
+  }
+
+  /**
+   * ASHRAE SI humidity ratio from dry-bulb and wet-bulb (°C).
+   * W = ((2501 - 2.326 twb) Ws* - 1.006 (tdb - twb)) / (2501 + 1.86 tdb - 4.186 twb)
+   * where Ws* = saturation humidity ratio at twb.
+   * If twb >= tdb, return saturation at tdb (WB=DB = sat OK).
+   */
+  function omegaFromDbWb(tdb, twb) {
+    if (twb >= tdb) return omegaSat(tdb);
+    var ws = omegaSat(twb);
+    var num = (2501 - 2.326 * twb) * ws - 1.006 * (tdb - twb);
+    var den = 2501 + 1.86 * tdb - 4.186 * twb;
+    if (den <= 0) return omegaSat(tdb);
+    var w = num / den;
+    if (!isFinite(w) || w < 0) return 0;
+    // Cap at saturation at DB
+    var wMax = omegaSat(tdb);
+    if (w > wMax) w = wMax;
+    return w;
+  }
+
+  /**
+   * Wet-bulb °C from DB + RH (or DB + ω via rhFromDbOmega).
+   * Binary search Twb in [dew, DB].
+   */
+  function wbFromDbRh(tdb, rhPct) {
+    var wTarget = omegaFromDbRh(tdb, rhPct);
+    return wbFromDbOmega(tdb, wTarget);
+  }
+
+  function wbFromDbOmega(tdb, omegaKg) {
+    var wSat = omegaSat(tdb);
+    if (omegaKg >= wSat * 0.9995) return tdb; // saturated
+    if (omegaKg <= 0) {
+      // very dry: approach dew of near-zero vapour
+      return dewFromPv(1);
+    }
+    var lo = dewFromPv((omegaKg * P) / (EPS + omegaKg));
+    var hi = tdb;
+    if (lo > hi) lo = hi;
+    // Expand slightly in case dew estimate is high
+    lo = Math.min(lo, hi) - 0.5;
+    if (lo < -20) lo = -20;
+    for (var i = 0; i < 40; i++) {
+      var mid = (lo + hi) / 2;
+      var wMid = omegaFromDbWb(tdb, mid);
+      if (wMid > omegaKg) {
+        // mid too wet → raise WB toward DB? Wait:
+        // Higher WB → higher ω. So if wMid > target, WB too high → lower hi.
+        hi = mid;
+      } else {
+        lo = mid;
+      }
+    }
+    return (lo + hi) / 2;
+  }
+
   /** Display g/kg from kg/kg. */
   function omegaGPerKg(omegaKg) {
     return omegaKg * 1000;
@@ -39,7 +101,6 @@
 
   /**
    * Dew point °C from vapour pressure Pa (inverse Magnus).
-   * t_d = 243.04 * ln(pv/610.94) / (17.625 - ln(pv/610.94))
    */
   function dewFromPv(pv) {
     if (pv <= 0) return -50;
@@ -62,9 +123,11 @@
   /** Full state from DB + RH. */
   function stateFromDbRh(tC, rhPct) {
     var w = omegaFromDbRh(tC, rhPct);
+    var wb = wbFromDbOmega(tC, w);
     return {
       db: tC,
       rh: rhPct,
+      wb: wb,
       omega: w,
       omegaG: omegaGPerKg(w),
       h: enthalpy(tC, w),
@@ -75,9 +138,11 @@
   /** Full state from DB + ω kg/kg. */
   function stateFromDbOmega(tC, omegaKg) {
     var rh = rhFromDbOmega(tC, omegaKg);
+    var wb = wbFromDbOmega(tC, omegaKg);
     return {
       db: tC,
       rh: rh,
+      wb: wb,
       omega: omegaKg,
       omegaG: omegaGPerKg(omegaKg),
       h: enthalpy(tC, omegaKg),
@@ -85,9 +150,23 @@
     };
   }
 
+  /** Full state from DB + WB °C (ASHRAE SI). */
+  function stateFromDbWb(tdb, twb) {
+    var w = omegaFromDbWb(tdb, twb);
+    var rh = rhFromDbOmega(tdb, w);
+    return {
+      db: tdb,
+      rh: rh,
+      wb: Math.min(twb, tdb),
+      omega: w,
+      omegaG: omegaGPerKg(w),
+      h: enthalpy(tdb, w),
+      dew: dewFromPv((w * P) / (EPS + w)),
+    };
+  }
+
   /**
    * Mix on OA–RA by OA ratio (0–1). Mass ≈ volume OK for demo.
-   * Mix DB and ω are linear in ratio; RH derived.
    */
   function mix(oa, ra, oaRatio) {
     var r = oaRatio;
@@ -96,10 +175,6 @@
     return stateFromDbOmega(db, w);
   }
 
-  /**
-   * Comfort polygon corners DB–RH → DB–ω states.
-   * (22,40%), (26,40%), (26,60%), (22,60%)
-   */
   function comfortCorners() {
     return [
       stateFromDbRh(22, 40),
@@ -109,7 +184,6 @@
     ];
   }
 
-  /** Saturation curve points: φ=1, sweep DB min→max. */
   function satCurve(dbMin, dbMax, steps) {
     var n = steps || 80;
     var out = [];
@@ -120,10 +194,6 @@
     return out;
   }
 
-  /**
-   * Optional SHR number. Hide if nonsense.
-   * SHR = cp(Tr-Ts) / (cp(Tr-Ts) + hfg(ωr-ωs))
-   */
   function shrNumber(supply, room) {
     var cp = 1.006;
     var hfg = 2450;
@@ -138,16 +208,25 @@
     return s;
   }
 
-  /** Compute full process from inputs (Beatrice defaults shape). */
+  /**
+   * Compute full process.
+   * inputs.oaMode: "rh" | "wb" (default "wb" for light v2 B1)
+   * When oaMode==="wb", use inputs.oaWb; else inputs.oaRh.
+   */
   function computeProcess(inputs) {
-    var oa = stateFromDbRh(inputs.oaDb, inputs.oaRh);
+    var oa;
+    if (inputs.oaMode === "wb") {
+      oa = stateFromDbWb(inputs.oaDb, inputs.oaWb);
+    } else {
+      oa = stateFromDbRh(inputs.oaDb, inputs.oaRh);
+    }
     var ra = stateFromDbRh(inputs.raDb, inputs.raRh);
     var mx = mix(oa, ra, inputs.oaRatio / 100);
     var coilRh = inputs.coilRh != null ? inputs.coilRh : 95;
     var leaving = stateFromDbRh(inputs.coilDb, coilRh);
-    var adp = stateFromDbRh(inputs.coilDb, 100); // kiss on sat @ leaving DB
+    var adp = stateFromDbRh(inputs.coilDb, 100);
     var supply = stateFromDbOmega(inputs.coilDb + inputs.reheatDt, leaving.omega);
-    var room = ra; // Room ≡ RA in v1
+    var room = ra;
 
     var softWarns = [];
     if (inputs.coilDb >= mx.db) {
@@ -176,12 +255,17 @@
     P: P,
     ps: ps,
     omegaFromDbRh: omegaFromDbRh,
+    omegaFromDbWb: omegaFromDbWb,
+    omegaSat: omegaSat,
     omegaGPerKg: omegaGPerKg,
     enthalpy: enthalpy,
     dewFromDbRh: dewFromDbRh,
     rhFromDbOmega: rhFromDbOmega,
+    wbFromDbRh: wbFromDbRh,
+    wbFromDbOmega: wbFromDbOmega,
     stateFromDbRh: stateFromDbRh,
     stateFromDbOmega: stateFromDbOmega,
+    stateFromDbWb: stateFromDbWb,
     mix: mix,
     comfortCorners: comfortCorners,
     satCurve: satCurve,

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="description" content="Psychrometric chart + MVAC process path (HK office demo)." />
+  <meta name="description" content="Psychrometric chart + MVAC process path (HK office demo). Preview build — light v2." />
   <title>Psychrometric Chart · 濕空氣線圖</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -14,7 +14,8 @@
         <h1>Psychrometric Chart</h1>
         <div class="sub">濕空氣線圖 · MVAC · °C / g/kg</div>
       </div>
-</header>
+      <span class="badge" title="Not final live — Justin OK required">PREVIEW</span>
+    </header>
 
     <section class="chart-pane" aria-label="Psychrometric chart">
       <div class="chart-card" id="chartCard">
@@ -65,32 +66,68 @@
       </div>
 
       <div class="fields">
-        <div class="field">
-          <label for="oaDb"><span class="en">Outdoor DB</span><span class="zh">室外乾球</span></label>
-          <div class="control">
-            <input id="oaDb" type="number" inputmode="decimal" min="5" max="40" step="0.1" value="33" aria-label="Outdoor dry-bulb °C" />
-            <span class="unit">°C</span>
+        <div class="section-block span2" id="outdoorSection">
+          <div class="section-label">
+            <span class="en">Outdoor</span>
+            <span class="zh">室外</span>
           </div>
-        </div>
-        <div class="field">
-          <label for="oaRh"><span class="en">Outdoor RH</span><span class="zh">室外相對濕度</span></label>
-          <div class="control">
-            <input id="oaRh" type="number" inputmode="decimal" min="10" max="99" step="1" value="68" aria-label="Outdoor relative humidity %" />
-            <span class="unit">%</span>
+          <div class="segmented" role="radiogroup" aria-label="Outdoor air entry mode">
+            <button type="button" class="seg-btn" id="oaModeRh" role="radio" aria-checked="false" data-mode="rh">
+              <span class="en">DB + RH</span>
+              <span class="zh">乾球+相對濕度</span>
+            </button>
+            <button type="button" class="seg-btn" id="oaModeWb" role="radio" aria-checked="true" data-mode="wb">
+              <span class="en">DB + WB</span>
+              <span class="zh">乾球+濕球</span>
+            </button>
           </div>
-        </div>
-        <div class="field">
-          <label for="raDb"><span class="en">Return DB</span><span class="zh">回風乾球</span></label>
-          <div class="control">
-            <input id="raDb" type="number" inputmode="decimal" min="5" max="40" step="0.1" value="24" aria-label="Return dry-bulb °C" />
-            <span class="unit">°C</span>
+          <div class="fields nested">
+            <div class="field">
+              <label for="oaDb"><span class="en">Outdoor DB</span><span class="zh">室外乾球</span></label>
+              <div class="control">
+                <input id="oaDb" type="number" inputmode="decimal" min="5" max="40" step="0.1" value="33" aria-label="Outdoor dry-bulb °C" />
+                <span class="unit">°C</span>
+              </div>
+            </div>
+            <div class="field" id="oaRhField">
+              <label for="oaRh"><span class="en">Outdoor RH</span><span class="zh">室外相對濕度</span></label>
+              <div class="control">
+                <input id="oaRh" type="number" inputmode="decimal" min="10" max="99" step="1" value="68" aria-label="Outdoor relative humidity %" />
+                <span class="unit">%</span>
+              </div>
+            </div>
+            <div class="field" id="oaWbField">
+              <label for="oaWb"><span class="en">Outdoor WB</span><span class="zh">室外濕球</span></label>
+              <div class="control">
+                <input id="oaWb" type="number" inputmode="decimal" min="5" max="40" step="0.1" value="28" aria-label="Outdoor wet-bulb °C" />
+                <span class="unit">°C</span>
+              </div>
+              <p class="field-warn" id="oaWbWarn" hidden>WB can’t exceed DB (saturation at equal) / 濕球不可高於乾球（相等＝飽和）</p>
+            </div>
           </div>
+          <p class="bec-badge" id="becBadge" hidden>Outside typical BEC Outdoor Summer envelope (hint) / 超出常見 BEC 夏季室外包絡（提示）</p>
         </div>
-        <div class="field">
-          <label for="raRh"><span class="en">Return RH</span><span class="zh">回風相對濕度</span></label>
-          <div class="control">
-            <input id="raRh" type="number" inputmode="decimal" min="10" max="99" step="1" value="50" aria-label="Return relative humidity %" />
-            <span class="unit">%</span>
+
+        <div class="section-block span2" id="returnSection">
+          <div class="section-label">
+            <span class="en">Return</span>
+            <span class="zh">回風</span>
+          </div>
+          <div class="fields nested">
+            <div class="field">
+              <label for="raDb"><span class="en">Return DB</span><span class="zh">回風乾球</span></label>
+              <div class="control">
+                <input id="raDb" type="number" inputmode="decimal" min="5" max="40" step="0.1" value="24" aria-label="Return dry-bulb °C" />
+                <span class="unit">°C</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="raRh"><span class="en">Return RH</span><span class="zh">回風相對濕度</span></label>
+              <div class="control">
+                <input id="raRh" type="number" inputmode="decimal" min="10" max="99" step="1" value="50" aria-label="Return relative humidity %" />
+                <span class="unit">%</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -120,7 +157,7 @@
 
       <p class="soft-warn" id="softWarn" hidden></p>
       <p class="shr-hint" id="shrHint" hidden></p>
-      <p class="demo-note">Demo defaults from Beatrice (HK summer teaching). Leaving RH default 95%; ADP = sat kiss at leaving DB. Not a Code of Practice extract.</p>
+      <p class="demo-note">Demo defaults from Beatrice (HK summer teaching). Light v2: OA DB+WB default 33/28. Leaving RH default 95%; ADP = sat kiss at leaving DB. Not a Code of Practice / BEC checker.</p>
     </section>
   </div>
 

@@ -2,17 +2,23 @@
 
 Mobile-first psychrometric chart + MVAC process path (HK office / public teaching demo).
 
-**Live:** https://justinksw.github.io/psychrometric-chart/
+**PREVIEW (light v2):** https://justinksw.github.io/psychrometric-chart/
 
-Built from Celine `brief-v2` + Beatrice calc defaults (Magnus / ω / enthalpy). EN primary, °C + g/kg. Free tools only.
+GitHub Pages currently serves the **`preview`** branch (PREVIEW badge). Not final live — hold merge to `main` until Justin OK via Sua. Last live `main` tip remains available to restore.
 
-## Open locally
+## Light v2 (brief-v3)
 
-```bash
-python3 -m http.server 8080 --directory .
-```
+- OA entry: **DB + RH | DB + WB** segmented control (Outdoor section)
+- Default load: **DB+WB · 33°C / 28°C WB** (≈ 33°C / ~68% RH)
+- Mode switch preserves psychrometric state (derived RH ↔ WB)
+- WB > DB: soft-warn + clamp on blur (WB = DB sat OK)
+- Soft BEC Outdoor Summer badge when DB>35 or WB>29 (hint only)
+- RA stays DB+RH only · P = 101325 Pa · ASHRAE SI ω from Twb
 
-## Notes
+## Local
 
-- Demo defaults are teaching values, not a Code of Practice extract.
-- Substance: `briefs/ANSWERS-beatrice.md` · Design: `briefs/brief-v2.md`
+Open `index.html` in a browser (static; no build step).
+
+## Briefs
+
+See `briefs/brief-v3.md` and `briefs/direction-v2.md` (Justin A1/B1/C1/D1).
