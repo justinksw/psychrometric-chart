@@ -1,0 +1,13 @@
+[chromium 320 step=4] sx=false chart%=53.4 sheet%=40.0 comfort=true shr=false room=false reheatH=true play=48.265625,44 switch=52,44 tab=false
+  defaults {"oa":"33","oaRh":"68","ra":"24","raRh":"50","coil":"13","ratio":"20"} axes=Comfort|DB (°C) →|ω (g/kg) → shot=/tmp/psychrometric-chart/preview-proof/chromium-320-step4.png
+[chromium 360 step=4] sx=false chart%=53.4 sheet%=40.0 comfort=true shr=false room=false reheatH=true play=48.265625,44 switch=52,44 tab=false
+  defaults {"oa":"33","oaRh":"68","ra":"24","raRh":"50","coil":"13","ratio":"20"} axes=Comfort|DB (°C) →|ω (g/kg) → shot=/tmp/psychrometric-chart/preview-proof/chromium-360-step4.png
+[chromium 390 step=4] sx=false chart%=53.4 sheet%=40.0 comfort=true shr=false room=false reheatH=true play=48.265625,44 switch=52,44 tab=false
+  defaults {"oa":"33","oaRh":"68","ra":"24","raRh":"50","coil":"13","ratio":"20"} axes=Comfort|DB (°C) →|ω (g/kg) → shot=/tmp/psychrometric-chart/preview-proof/chromium-390-step4.png
+[chromium 430 step=4] sx=false chart%=53.4 sheet%=40.0 comfort=true shr=false room=false reheatH=true play=48.265625,44 switch=52,44 tab=false
+  defaults {"oa":"33","oaRh":"68","ra":"24","raRh":"50","coil":"13","ratio":"20"} axes=Comfort|DB (°C) →|ω (g/kg) → shot=/tmp/psychrometric-chart/preview-proof/chromium-430-step4.png
+[chromium 390 shr=1] sx=false chart%=53.4 sheet%=40.0 comfort=true shr=true room=true reheatH=true play=48.265625,44 switch=52,44 tab=false
+  defaults {"oa":"33","oaRh":"68","ra":"24","raRh":"50","coil":"13","ratio":"20"} axes=Comfort|DB (°C) →|ω (g/kg) → shot=/tmp/psychrometric-chart/preview-proof/chromium-390-shr1.png
+[chromium 390 pop=1&point=Mix] sx=false chart%=53.4 sheet%=40.0 comfort=true shr=false room=false reheatH=true play=48.265625,44 switch=52,44 tab=false
+  defaults {"oa":"33","oaRh":"68","ra":"24","raRh":"50","coil":"13","ratio":"20"} axes=Comfort|DB (°C) →|ω (g/kg) → shot=/tmp/psychrometric-chart/preview-proof/chromium-390-pop1_pointMix.png
+[reduced-motion] step=6 (expect 6)
