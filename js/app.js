@@ -96,7 +96,7 @@
       (meta.offChart
         ? '<p class="note warn">Off chart / 超出圖範圍</p>'
         : name === "Room"
-          ? '<p class="note">Room uses return-air state · 室內＝回風狀態</p>'
+          ? '<p class="note">Room uses return-air state / 室內點＝回風狀態</p>'
           : '<p class="note">Demo defaults (Beatrice) · 示範預設</p>');
     // Position relative to chart card using SVG coords → %
     var card = $("chartCard");
@@ -136,6 +136,8 @@
   function renderShrHint(show, shr) {
     var el = $("shrHint");
     if (!el) return;
+    var cap = $("shrCaption");
+    if (cap) cap.hidden = !show;
     if (!show) {
       el.hidden = true;
       return;
@@ -144,7 +146,7 @@
     var extra =
       shr != null ? " · SHR ≈ " + (shr * 100).toFixed(0) + "%" : "";
     el.textContent =
-      "Room uses return-air state · 室內＝回風狀態" + extra;
+      "Room uses return-air state / 室內點＝回風狀態" + extra;
   }
 
   function rebuild() {

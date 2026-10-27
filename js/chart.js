@@ -159,7 +159,7 @@
         fill: "#1E2A50",
         transform: "rotate(-90 14 " + (py + ph / 2) + ")",
       },
-      ["ω (g/kg) →"]
+      ["ω (g/kg) ↑"]
     );
     svg.appendChild(yLabel);
 

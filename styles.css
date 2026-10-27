@@ -199,7 +199,7 @@ header.appbar .sub {
 
 .sheet {
   flex: 0 0 auto;
-  max-height: 38%;
+  max-height: 42%;
   background: var(--panel);
   border-radius: 16px 16px 0 0;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
@@ -208,7 +208,26 @@ header.appbar .sub {
   overflow-y: auto;
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
+  position: relative;
 }
+.sheet::after {
+  content: "";
+  pointer-events: none;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  display: block;
+  height: 28px;
+  margin: -28px 0 0;
+  background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0));
+}
+.shr-caption {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+.shr-caption[hidden] { display: none !important; }
 .grab {
   width: 36px;
   height: 4px;
