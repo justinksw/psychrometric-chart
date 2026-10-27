@@ -202,13 +202,12 @@
     ) {
       var el = $(id);
       if (!el) return;
-      el.addEventListener("change", function () {
-        var key =
-          id === "coilLeave" ? "coilDb" : id === "reheat" ? "reheatDt" : id;
-        clampInput(id, key);
+      // Rebuild live while typing; clamp only on blur/change so
+      // mid-keystroke values (e.g. "2" while typing "25") are not rewritten.
+      el.addEventListener("input", function () {
         rebuild();
       });
-      el.addEventListener("input", function () {
+      el.addEventListener("change", function () {
         var key =
           id === "coilLeave" ? "coilDb" : id === "reheat" ? "reheatDt" : id;
         clampInput(id, key);
