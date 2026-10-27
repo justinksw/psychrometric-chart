@@ -260,7 +260,10 @@
     return { x: p.x, y: p.y, offChart: c.offChart, state: state };
   }
 
-  function makePoint(id, label, xy, fill, visible) {
+  function makePoint(id, label, xy, fill, visible, labelPos) {
+    labelPos = labelPos || {};
+    var lx = labelPos.x != null ? labelPos.x : 10;
+    var ly = labelPos.y != null ? labelPos.y : -8;
     var g = el("g", {
       id: id,
       class: "pt point-hit",
@@ -283,8 +286,8 @@
     var labelEl = el(
       "text",
       {
-        x: "10",
-        y: "-8",
+        x: String(lx),
+        y: String(ly),
         "font-size": "10",
         "font-weight": "700",
         fill: "#1E2A50",
@@ -361,9 +364,13 @@
     pts.appendChild(makePoint("pt-oa", "OA", oa, "#1E2A50", true));
     pts.appendChild(makePoint("pt-ra", "RA", ra, "#1E2A50", true));
     pts.appendChild(makePoint("pt-mix", "Mix", mx, "#C45C26", true));
-    // ADP on sat; also show Leaving near it — brief uses ADP kiss marker
-    pts.appendChild(makePoint("pt-adp", "ADP", adp, "#1E2A50", true));
-    // Leaving sits very near ADP; label Supply after reheat
+    // Leaving (coil @ ~95% RH) then ADP sat kiss at same DB — labels offset so both readable
+    pts.appendChild(
+      makePoint("pt-leave", "Leaving", leaving, "#C45C26", true, { x: 10, y: 14 })
+    );
+    pts.appendChild(
+      makePoint("pt-adp", "ADP", adp, "#1E2A50", true, { x: 10, y: -10 })
+    );
     pts.appendChild(makePoint("pt-sup", "Supply", supplyDraw, "#C45C26", true));
     var roomPt = makePoint("pt-room", "Room", room, "#2E7D6E", showShr);
     pts.appendChild(roomPt);

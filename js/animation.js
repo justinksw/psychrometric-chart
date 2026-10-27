@@ -7,7 +7,7 @@
   var CAPTIONS = {
     1: "1 · OA & RA fade in · 室外／回風點出現",
     2: "2 · Mix slides on OA–RA · 混合點沿線移動",
-    3: "3 · Coil → ADP (kiss) · 盤管至露點附近",
+    3: "3 · Coil leaving → ADP kiss · 盤管出風至露點（飽和線）",
     4: "4 · Reheat horizontal right · 再熱水平向右（等濕）",
     5: "5 · Supply→Room along SHR · 沿顯熱比（需開啟）",
     6: "6 · Pop ω / h / dew / RH · 顯示點狀態",
@@ -64,7 +64,7 @@
     var ids = {
       1: ["pt-oa", "pt-ra"],
       2: ["seg-oa-ra", "pt-mix"],
-      3: ["seg-coil", "pt-adp"],
+      3: ["seg-coil", "pt-leave", "pt-adp"],
       4: ["seg-reheat", "pt-sup"],
       5: showShr ? ["seg-shr", "pt-room"] : [],
     };
@@ -73,6 +73,7 @@
       "pt-oa",
       "pt-ra",
       "pt-mix",
+      "pt-leave",
       "pt-adp",
       "pt-sup",
       "pt-room",

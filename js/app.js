@@ -97,7 +97,11 @@
         ? '<p class="note warn">Off chart / 超出圖範圍</p>'
         : name === "Room"
           ? '<p class="note">Room uses return-air state / 室內點＝回風狀態</p>'
-          : '<p class="note">Demo defaults (Beatrice) · 示範預設</p>');
+          : name === "ADP"
+            ? '<p class="note">ADP = sat kiss @ leaving DB · 離開點預設 RH 95%</p>'
+            : name === "Leaving"
+              ? '<p class="note">Coil leaving · default RH 95% · 盤管出風（非飽和）</p>'
+              : '<p class="note">Demo defaults (Beatrice) · 示範預設</p>');
     // Position relative to chart card using SVG coords → %
     var card = $("chartCard");
     var svg = card.querySelector("svg");
@@ -205,6 +209,15 @@
         rebuild();
       });
       el.addEventListener("input", function () {
+        var key =
+          id === "coilLeave" ? "coilDb" : id === "reheat" ? "reheatDt" : id;
+        clampInput(id, key);
+        rebuild();
+      });
+      el.addEventListener("blur", function () {
+        var key =
+          id === "coilLeave" ? "coilDb" : id === "reheat" ? "reheatDt" : id;
+        clampInput(id, key);
         rebuild();
       });
     });
