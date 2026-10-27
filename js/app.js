@@ -32,6 +32,7 @@
   var pointMap = {};
   var process = null;
   var anim = null;
+  var openPoint = null;
 
   function $(id) {
     return document.getElementById(id);
@@ -85,6 +86,20 @@
   function fmt(n, d) {
     if (!isFinite(n)) return "—";
     return Number(n).toFixed(d);
+  }
+
+  /** One decimal, without a trailing .0 (68.6 stays 68.6; 50 stays 50). */
+  function fmtRh(n) {
+    if (!isFinite(n)) return "—";
+    return String(Number(Number(n).toFixed(1)));
+  }
+
+  function atDemoDefaults() {
+    var i = readInputs();
+    if (i.oaDb !== DEFAULTS.oaDb || i.raDb !== DEFAULTS.raDb || i.raRh !== DEFAULTS.raRh) return false;
+    if (i.oaRatio !== DEFAULTS.oaRatio || i.coilDb !== DEFAULTS.coilDb || i.reheatDt !== DEFAULTS.reheatDt) return false;
+    if (i.oaMode === "wb") return i.oaWb === DEFAULTS.oaWb;
+    return i.oaRh === DEFAULTS.oaRh;
   }
 
   function syncModeUi() {
@@ -178,7 +193,7 @@
       fmt(s.dew, 1) +
       " °C</dd>" +
       "<dt>RH</dt><dd>" +
-      fmt(s.rh, 0) +
+      fmtRh(s.rh) +
       " %</dd>" +
       wbRow +
       "</dl>" +
@@ -190,20 +205,28 @@
             ? '<p class="note">ADP = sat kiss @ leaving DB · 離開點預設 RH 95%</p>'
             : name === "Leaving"
               ? '<p class="note">Coil leaving · default RH 95% · 盤管出風（非飽和）</p>'
-              : '<p class="note">Demo defaults (Beatrice) · 示範預設</p>');
+              : atDemoDefaults()
+                ? '<p class="note">Demo defaults (Beatrice) · 示範預設</p>'
+                : "");
+    openPoint = name;
+    pop.classList.add("show");
+    // .chart-card is overflow:hidden. A fixed 62% cap clips the chip on a 320px phone.
     var card = $("chartCard");
     var svg = card.querySelector("svg");
     var vb = svg.viewBox.baseVal;
     var leftPct = (meta.x / vb.width) * 100;
     var topPct = (meta.y / vb.height) * 100;
-    leftPct = Math.max(4, Math.min(62, leftPct));
+    var cardW = card.clientWidth || 1;
+    var maxLeft = ((cardW - pop.offsetWidth - 6) / cardW) * 100;
+    if (!isFinite(maxLeft) || maxLeft < 4) maxLeft = 4;
+    leftPct = Math.max(4, Math.min(maxLeft, leftPct));
     topPct = Math.max(4, Math.min(55, topPct));
     pop.style.left = leftPct + "%";
     pop.style.top = topPct + "%";
-    pop.classList.add("show");
   }
 
   function hidePopover() {
+    openPoint = null;
     var pop = $("popover");
     if (pop) pop.classList.remove("show");
   }
@@ -261,9 +284,10 @@
 
     if (anim) {
       anim.applyVisibility(anim.step, showShr);
-      if (anim.step >= 6) {
-        /* keep popover */
-      } else {
+      var pop = $("popover");
+      if (anim.step >= 6 && openPoint && pop && pop.classList.contains("show")) {
+        showPopover(openPoint);
+      } else if (anim.step < 6) {
         hidePopover();
       }
     }

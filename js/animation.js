@@ -88,15 +88,6 @@
       el.style.opacity = "";
     });
 
-    var reduced = prefersReduced();
-    var max = reduced ? 6 : step;
-    // When reduced, show final path (through 4, +5 if SHR)
-    if (reduced) {
-      max = showShr ? 5 : 4;
-      // still allow step 6 popover separately
-      if (step >= 6) max = showShr ? 5 : 4;
-    }
-
     var s;
     for (s = 1; s <= Math.min(step, 5); s++) {
       (ids[s] || []).forEach(function (id) {
