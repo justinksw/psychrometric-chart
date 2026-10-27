@@ -1,6 +1,6 @@
 # Light v2 acceptance
 
-SHA: 1da7fe8 (preview)
+SHA: e176718 (preview)
 URL: https://justinksw.github.io/psychrometric-chart/ (Pages → preview)
 
 | # | Item | Pass | Detail |
