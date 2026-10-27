@@ -246,6 +246,7 @@ header.appbar .sub {
   gap: 4px;
   min-width: 0;
 }
+.field[hidden] { display: none !important; }
 .field.span2 { grid-column: 1 / -1; }
 .field label .en {
   display: block;
