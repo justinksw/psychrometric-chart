@@ -1,0 +1,130 @@
+[
+  {
+    "engine": "webkit",
+    "w": 320,
+    "sx": false,
+    "sheetPct": 42,
+    "chartPct": 52,
+    "omega": "ω (g/kg) ↑",
+    "shr": true,
+    "comfort": true,
+    "captionHidden": true,
+    "sheetMax": "42%",
+    "shrOnCaption": {
+      "hidden": false,
+      "text": "Room uses return-air state / 室內點＝回風狀態"
+    }
+  },
+  {
+    "engine": "webkit",
+    "w": 360,
+    "sx": false,
+    "sheetPct": 42,
+    "chartPct": 52,
+    "omega": "ω (g/kg) ↑",
+    "shr": true,
+    "comfort": true,
+    "captionHidden": true,
+    "sheetMax": "42%",
+    "shrOnCaption": {
+      "hidden": false,
+      "text": "Room uses return-air state / 室內點＝回風狀態"
+    }
+  },
+  {
+    "engine": "webkit",
+    "w": 390,
+    "sx": false,
+    "sheetPct": 42,
+    "chartPct": 52,
+    "omega": "ω (g/kg) ↑",
+    "shr": true,
+    "comfort": true,
+    "captionHidden": true,
+    "sheetMax": "42%",
+    "shrOnCaption": {
+      "hidden": false,
+      "text": "Room uses return-air state / 室內點＝回風狀態"
+    }
+  },
+  {
+    "engine": "webkit",
+    "w": 430,
+    "sx": false,
+    "sheetPct": 42,
+    "chartPct": 52,
+    "omega": "ω (g/kg) ↑",
+    "shr": true,
+    "comfort": true,
+    "captionHidden": true,
+    "sheetMax": "42%",
+    "shrOnCaption": {
+      "hidden": false,
+      "text": "Room uses return-air state / 室內點＝回風狀態"
+    }
+  },
+  {
+    "engine": "chromium",
+    "w": 320,
+    "sx": false,
+    "sheetPct": 42,
+    "chartPct": 52,
+    "omega": "ω (g/kg) ↑",
+    "shr": true,
+    "comfort": true,
+    "captionHidden": true,
+    "sheetMax": "42%",
+    "shrOnCaption": {
+      "hidden": false,
+      "text": "Room uses return-air state / 室內點＝回風狀態"
+    }
+  },
+  {
+    "engine": "chromium",
+    "w": 360,
+    "sx": false,
+    "sheetPct": 42,
+    "chartPct": 52,
+    "omega": "ω (g/kg) ↑",
+    "shr": true,
+    "comfort": true,
+    "captionHidden": true,
+    "sheetMax": "42%",
+    "shrOnCaption": {
+      "hidden": false,
+      "text": "Room uses return-air state / 室內點＝回風狀態"
+    }
+  },
+  {
+    "engine": "chromium",
+    "w": 390,
+    "sx": false,
+    "sheetPct": 42,
+    "chartPct": 52,
+    "omega": "ω (g/kg) ↑",
+    "shr": true,
+    "comfort": true,
+    "captionHidden": true,
+    "sheetMax": "42%",
+    "shrOnCaption": {
+      "hidden": false,
+      "text": "Room uses return-air state / 室內點＝回風狀態"
+    }
+  },
+  {
+    "engine": "chromium",
+    "w": 430,
+    "sx": false,
+    "sheetPct": 42,
+    "chartPct": 52,
+    "omega": "ω (g/kg) ↑",
+    "shr": true,
+    "comfort": true,
+    "captionHidden": true,
+    "sheetMax": "42%",
+    "shrOnCaption": {
+      "hidden": false,
+      "text": "Room uses return-air state / 室內點＝回風狀態"
+    }
+  }
+]
