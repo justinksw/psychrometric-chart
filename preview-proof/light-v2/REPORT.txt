@@ -1,0 +1,20 @@
+PASS	4 Defaults B1	{"wbChecked":"true","rhChecked":"false","db":"33","wb":"28","rhHidden":true,"wbHidden":false,"raDb":"24","raRh":"50","ratio":"20","coil":"13","reheat":"5","comfort":true,"shr":false,"hasRaWb":false,"preview":true,"segH":44,"derived":68.62714915547718}
+PASS	2 OA mode A1 tap≥44	segH=44
+PASS	8 RA no WB	hasRaWb=false
+PASS	13 PREVIEW badge	badge=true
+PASS	10 WB calc ~68%	RH=68.6
+PASS	3 Field swap	{"rhVal":"68.6","rhHidden":false,"wbHidden":true,"mode":"true","omegaG":21.90204000011478}
+PASS	5 State preserve	ω before=21.91 rh=21.90 wb=21.91 d=0.009/0.000 derivedRH=68.6 roundtripWB=28
+PASS	6 WB>DB C1	mid={"warn":true,"val":"36"} after={"warn":false,"val":"33"} sat={"warn":false,"val":"33","rh":100}
+PASS	7 BEC badge D1	show=true clearHidden=true text=Outside typical BEC Outdoor Summer envel
+PASS	1/11 no sx scroll chromium@320	{"sw":320,"cw":320,"bodySw":320,"phoneSw":320,"phoneCw":320}
+PASS	1/11 no sx scroll chromium@360	{"sw":360,"cw":360,"bodySw":360,"phoneSw":360,"phoneCw":360}
+PASS	1/11 no sx scroll chromium@390	{"sw":390,"cw":390,"bodySw":390,"phoneSw":390,"phoneCw":390}
+PASS	1/11 no sx scroll chromium@430	{"sw":430,"cw":430,"bodySw":430,"phoneSw":430,"phoneCw":430}
+PASS	1 Layout chart/sheet	{"chartTop":47.390625,"sheetTop":489.53125,"chartH":442.140625,"sheetH":354.46875,"noTabs":true}
+PASS	1/11 no sx scroll webkit@320	{"sw":320,"cw":320,"bodySw":320,"phoneSw":320,"phoneCw":320}
+PASS	1/11 no sx scroll webkit@360	{"sw":360,"cw":360,"bodySw":360,"phoneSw":360,"phoneCw":360}
+PASS	1/11 no sx scroll webkit@390	{"sw":390,"cw":390,"bodySw":390,"phoneSw":390,"phoneCw":390}
+PASS	1/11 no sx scroll webkit@430	{"sw":430,"cw":430,"bodySw":430,"phoneSw":430,"phoneCw":430}
+PASS	9 Path/math inherit	computeProcess + chart path unchanged; WB path added
+PASS	12 Not a checker	no pass/fail UI; BEC hint only; no RA WB; no winter

@@ -110,7 +110,7 @@
     if (oaMode === "wb" && next === "rh") {
       var wb = num("oaWb", DEFAULTS.oaWb);
       var st = Psychrometry.stateFromDbWb(db, Math.min(wb, db));
-      $("oaRh").value = String(Math.round(st.rh));
+      $("oaRh").value = String(Number(st.rh.toFixed(1)));
     } else if (oaMode === "rh" && next === "wb") {
       var rh = num("oaRh", DEFAULTS.oaRh);
       var st2 = Psychrometry.stateFromDbRh(db, rh);
